@@ -45,7 +45,7 @@ curl --proto '=https' --tlsv1.2 -LsSf https://github.com/atuinsh/atuin/releases/
 ~/.atuin/bin/atuin sync
 
 # tools for git
-sudo apt install -y delta tig
+sudo apt install -y git-delta tig
 
 # lazygit
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
@@ -145,7 +145,10 @@ ssh -T git@github.com
 
 # dotfiles
 git clone --bare git@github.com:bpetrukovich/dotfiles-fish.git $HOME/.dotfiles
-
+git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
+git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME fetch
+git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME branch --set-upstream-to=origin/main main
 git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout -f
 
 # neovim
