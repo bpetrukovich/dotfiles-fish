@@ -20,7 +20,7 @@ sudo apt install -y build-essential ca-certificates git unzip curl wget ripgrep 
 sudo apt-add-repository -y ppa:fish-shell/release-4
 sudo apt update
 sudo apt install -y fish
-command -v fish | sudo tee -a /etc/shells
+echo "$(command -v fish)" | sudo tee -a /etc/shells
 sudo chsh -s "$(command -v fish)"
 
 # nerd font
@@ -40,7 +40,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
 # atuin
-curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh | sh
 ~/.atuin/bin/atuin login
 ~/.atuin/bin/atuin sync
 
