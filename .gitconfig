@@ -1,0 +1,18 @@
+[include]
+    path = ~/.gitconfig-personal
+[includeIf "gitdir:~/work"] path = ~/.gitconfig-work
+[init]
+  defaultBranch = main
+[core]
+  editor = nvim
+  excludesFile = ~/.gitignore
+  pager = delta
+[push]
+  autoSetupRemote = true
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true
+  dark = true
+[merge]
+  conflictStyle = zdiff3
