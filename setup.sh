@@ -138,6 +138,9 @@ ssh -T git@github.com
 
 # TODO: we can repeat with work email if user wants
 
+# dotfiles
+git clone --bare git@github.com:bpetrukovich/dotfiles-fish.git $HOME/.dotfiles
+
 # neovim
 
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
