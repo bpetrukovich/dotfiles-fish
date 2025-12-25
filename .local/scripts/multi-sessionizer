@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+project_dirs=(
+  "$HOME/personal/"
+  "$HOME/work/"
+)
+
+extra_dirs=(
+  "$HOME/obsidian-vault/"
+  "$HOME/.local/scripts/"
+  "$HOME/.config/nvim/"
+  "$HOME/.config/fish/"
+  "$HOME/.config/"
+  "$HOME/"
+)
+
+get_dirs() {
+  find "${project_dirs[@]}" \
+    -mindepth 2 -maxdepth 2 \
+    -type d \
+    -not -path '*/.*' 2>/dev/null
+
+  printf '%s\n' "${extra_dirs[@]}"
+}
+
+selected_dirs=$(get_dirs | fzf --multi)
+
+[[ -z $selected_dirs ]] && exit 0
+
+tmux_running=$(pgrep tmux)
+count=$(echo "$selected_dirs" | wc -l)
+
+if [[ $count -eq 1 ]]; then
+  dir="$selected_dirs"
+  name=$(basename "$dir" | tr . _)
+
+  if ! tmux has-session -t="$name" 2>/dev/null; then
+    tmux new-session -ds "$name" -c "$dir"
+  fi
+
+  if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux attach -t "$name"
+  elif [[ -z $TMUX ]]; then
+    tmux attach -t "$name"
+  else
+    tmux switch-client -t "$name"
+  fi
+
+  exit 0
+fi
+
+while IFS= read -r dir; do
+  [[ -z "$dir" ]] && continue
+  name=$(basename "$dir" | tr . _)
+  if ! tmux has-session -t="$name" 2>/dev/null; then
+    tmux new-session -ds "$name" -c "$dir"
+  fi
+done <<< "$selected_dirs"
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+  first_name=$(basename "$(echo "$selected_dirs" | head -n1)" | tr . _)
+  tmux attach -t "$first_name"
+  exit 0
+fi
+
+if [[ -n $TMUX ]]; then
+  tmux choose-session
+else
+  tmux attach
+fi
