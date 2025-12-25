@@ -21,28 +21,28 @@ sudo apt-add-repository -y ppa:fish-shell/release-4
 sudo apt update
 sudo apt install -y fish
 command -v fish | sudo tee -a /etc/shells
-chsh -s "$(command -v fish)"
+sudo chsh -s "$(command -v fish)"
 
 # nerd font
 # Needed to be installed in the host windows system and setted up in terminal like WezTerm, Alacritty or Windows Terminal
 # But won't hurt in wsl
 curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip -o /tmp/JetBrainsMono.zip && unzip -o /tmp/JetBrainsMono.zip -d /tmp/jb_font && mkdir -p ~/.local/share/fonts && cp /tmp/jb_font/*.ttf ~/.local/share/fonts/ && fc-cache -f && rm -rf /tmp/JetBrainsMono.zip /tmp/jb_font
 
-curl -sS https://starship.rs/install.sh | sudo sh
+curl -sS https://starship.rs/install.sh | sudo sh -s -- --yes
 
 # fzf
 # no change in rc file
 # checkout https://github.com/junegunn/fzf/blob/master/install for help
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --no-key-bindings --completion --no-update-rc
-rm -rf ~/.fzf/
 
 # zoxide
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
 # atuin
 curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
-echo "Run 'atuin login' and 'atuin sync' manually after script completes"
+atuin login
+atuin sync
 
 # tools for git
 sudo apt install -y delta tig
@@ -56,7 +56,7 @@ rm -rf lazygit lazygit.tar.gz
 
 # ------------ docker ------------
 curl -fsSL https://get.docker.com | sudo sh
-sudo groupadd docker
+sudo groupadd docker -f
 sudo usermod -aG docker $USER
 echo "Restart wsl or run 'newgrp docker' to apply docker rules"
 
@@ -80,7 +80,12 @@ ln -s /usr/bin/batcat ~/.local/bin/bat
 tldr -u
 
 # node (fnm)
-curl -fsSL https://fnm.vercel.app/install | bash -- --skip-shell # no change in rc file
+curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell # no change in rc file
+export FNM_DIR="$HOME/.local/share/fnm"
+if [ -d "$FNM_DIR" ]; then
+    export PATH="$FNM_DIR:$PATH"
+    eval "$(fnm env --shell=bash)"
+fi
 fnm install --lts
 
 # dotnet
@@ -141,6 +146,8 @@ ssh -T git@github.com
 # dotfiles
 git clone --bare git@github.com:bpetrukovich/dotfiles-fish.git $HOME/.dotfiles
 
+git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout -f
+
 # neovim
 
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
@@ -158,9 +165,9 @@ npm install -g tree-sitter-cli
 echo "Attempting to clone nvim config..."
 if git clone git@github.com:bpetrukovich/nvim-archive.git ~/.config/nvim 2>/dev/null; then
     echo "✓ nvim config cloned successfully"
+    nvim --headless "+Lazy! sync" +qa
 else
     echo "⚠ Could not clone nvim config. You may need to add SSH key to GitHub first."
-    mkdir -p ~/.config/nvim
 fi
 
 echo "Attempting to clone obsidian vault..."
@@ -168,7 +175,6 @@ if git clone git@github.com:bpetrukovich/obsidian.git ~/obsidian-vault 2>/dev/nu
     echo "✓ obsidian vault cloned successfully"
 else
     echo "⚠ Could not clone obsidian vault. You may need to add SSH key to GitHub first."
-    mkdir -p ~/obsidian-vault
 fi
 
 # all programming related projects
