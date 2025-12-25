@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+selected_script=$(find ~/.local/scripts -type f -executable -not -name '.*' -printf '%f\n' | fzf)
+
+if [[ -z $selected_script ]]; then
+    exit 0
+fi
+
+if [[ -n "$TMUX" ]]; then
+    tmux send-keys -l "$selected_script"
+else
+    if [[ -n "$BASH" ]]; then
+        bind '"\e[0n": "'"$selected_script"'"'
+        printf '\e[5n'
+    elif [[ -n "$ZSH_VERSION" ]]; then
+        print -z -- "$selected_script"
+    else
+        echo "$selected_script"
+    fi
+fi
