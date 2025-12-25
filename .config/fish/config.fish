@@ -9,4 +9,4 @@ if status is-interactive
     fzf --fish | FZF_CTRL_R_COMMAND= source
     starship init fish | source
 end
-zoxide init fish | source
+zoxide init --cmd cd fish | source
