@@ -41,8 +41,8 @@ curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh 
 
 # atuin
 curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
-atuin login
-atuin sync
+~/.atuin/bin/atuin login
+~/.atuin/bin/atuin sync
 
 # tools for git
 sudo apt install -y delta tig
