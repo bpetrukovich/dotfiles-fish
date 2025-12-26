@@ -94,7 +94,7 @@ sudo apt-get install -y dotnet-sdk-10.0
 dotnet tool install --global dotnet-ef
 
 # tmux + tpm
-sudo apt install -y tmux
+sudo apt install -y tmux tmuxp
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # prefix + I to install all plugins from config
 
