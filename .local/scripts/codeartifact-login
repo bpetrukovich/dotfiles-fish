@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Starting loggining..."
+echo ""
+echo "dotnet:"
+aws codeartifact login --tool dotnet $CODEARTIFACT_DOTNET_FLAGS
+echo ""
+echo "npm:"
+aws codeartifact login --tool npm $CODEARTIFACT_NPM_FLAGS
