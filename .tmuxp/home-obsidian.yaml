@@ -1,0 +1,16 @@
+sessions:
+  - session_name: home
+    start_directory: /home/bpetrukovich/
+    windows:
+      - window_name: shell
+        panes:
+          - shell_command:
+              -
+
+  - session_name: obsidian
+    start_directory: /home/bpetrukovich/obsidian-vault/
+    windows:
+      - window_name: notes
+        panes:
+          - shell_command:
+              - vim .
