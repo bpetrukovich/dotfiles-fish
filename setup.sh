@@ -20,8 +20,8 @@ sudo apt install -y build-essential ca-certificates git unzip curl wget ripgrep 
 sudo apt-add-repository -y ppa:fish-shell/release-4
 sudo apt update
 sudo apt install -y fish
-echo "$(command -v fish)" | sudo tee -a /etc/shells
-sudo chsh -s "$(command -v fish)"
+echo "$(which fish)" | sudo tee -a /etc/shells
+sudo chsh -s "$(which fish)"
 
 # nerd font
 # Needed to be installed in the host windows system and setted up in terminal like WezTerm, Alacritty or Windows Terminal
@@ -144,8 +144,7 @@ ssh -T git@github.com
 # TODO: we can repeat with work email if user wants
 
 # dotfiles
-git clone --bare git@github.com:bpetrukovich/dotfiles-fish.git $HOME/.dotfiles
-git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
+git clone --bare git@github.com:bpetrukovich/dotfiles-fish.git $HOME/.dotfiles git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
 git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME fetch
 git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME branch --set-upstream-to=origin/main main
