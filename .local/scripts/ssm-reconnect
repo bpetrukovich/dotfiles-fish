@@ -1,0 +1,8 @@
+#!/bin/bash
+
+while true; do
+    echo "Starting SSM session..."
+    aws ssm $SSM_FLAGS
+    echo "Session disconnected. Reconnecting in 4 seconds..."
+    sleep 4
+done

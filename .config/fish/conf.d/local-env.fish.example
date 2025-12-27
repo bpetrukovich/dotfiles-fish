@@ -1,0 +1,4 @@
+set -gx K8S_WORK_NAMESPACE "namespace"
+set -gx SSM_FLAGS "--region eu-central-1 --target i-xxxxxxxxxx --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters host=endpoint-xxxxxxxx-vpc-xxxxxxx-xxxxxxx.rds.amazonaws.com,portNumber=5432,localPortNumber=5444 --profile devCluster"
+set -gx CODEARTIFACT_DOTNET_FLAGS "--profile devCluster --repository xxxxxxxx --domain xxxxxxxxxx --domain-owner xxxxxxxxxx --region eu-central-1"
+set -gx CODEARTIFACT_NPM_FLAGS "--repository xxxxxxxxx --domain xxxxxxxxx --domain-owner xxxxxxxxxx --region eu-central-1 --namespace xxx"

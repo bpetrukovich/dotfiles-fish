@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+tmux new-session -d -s home -c /home/bpetrukovich/ -n shell
+
+tmux new-session -d -s obsidian -c /home/bpetrukovich/obsidian-vault/ -n notes
+tmux send-keys -t obsidian 'vim .' C-m
+
+tmux attach -t home
