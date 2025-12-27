@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+TARGET_DIR="${1:-$(pwd)}"
+
+if [[ ! -d "$TARGET_DIR" ]]; then
+  echo "Directory does not exist: $TARGET_DIR"
+  exit 1
+fi
+
+temp_list=$(mktemp)
+trap 'rm -f "$temp_list"' EXIT
+
+echo "Searching for node_modules, bin, and obj folders in: $TARGET_DIR"
+
+# -H: include hidden
+# -t d: directories
+# -I: ignore .gitignore to ensure build artifacts are found
+fdfind -H -t d -I '^(node_modules|bin|obj)$' "$TARGET_DIR" --prune > "$temp_list"
+
+if [ ! -s "$temp_list" ]; then
+    echo "No matching folders found."
+    exit 0
+fi
+
+cat "$temp_list"
+echo -n "Delete these folders? (y/n): "
+
+read -r confirm < /dev/tty
+
+if [[ "$confirm" =~ ^[Yy]$ ]]; then
+    echo "Removing..."
+    xargs -a "$temp_list" -d '\n' rm -rf
+    echo "Done."
+else
+    echo "Aborted."
+fi
