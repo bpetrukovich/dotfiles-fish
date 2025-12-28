@@ -21,7 +21,7 @@ sudo apt-add-repository -y ppa:fish-shell/release-4
 sudo apt update
 sudo apt install -y fish
 echo "$(which fish)" | sudo tee -a /etc/shells
-sudo chsh -s "$(which fish)"
+chsh -s "$(which fish)"
 
 # nerd font
 # Needed to be installed in the host windows system and setted up in terminal like WezTerm, Alacritty or Windows Terminal
