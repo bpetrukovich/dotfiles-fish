@@ -142,7 +142,6 @@ else
     echo "Copy given key to GitHub"
 fi
 read -p "Press Enter after adding ssh key to GitHub..."
-ssh -T git@github.com
 
 # TODO: we can repeat with work email if user wants
 
