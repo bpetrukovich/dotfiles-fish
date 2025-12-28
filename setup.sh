@@ -144,7 +144,8 @@ ssh -T git@github.com
 # TODO: we can repeat with work email if user wants
 
 # dotfiles
-git clone --bare git@github.com:bpetrukovich/dotfiles-fish.git $HOME/.dotfiles git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
+git clone --bare git@github.com:bpetrukovich/dotfiles-fish.git $HOME/.dotfiles
+git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
 git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME fetch
 git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME branch --set-upstream-to=origin/main main
