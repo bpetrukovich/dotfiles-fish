@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_FILE="${1:-git-remotes.txt}"
+
+if [[ ! -f "$REPO_FILE" ]]; then
+  echo "File not found: $REPO_FILE"
+  exit 1
+fi
+
+while IFS= read -r repo; do
+  [[ -z "$repo" || "$repo" =~ ^# ]] && continue
+
+  echo "Clone: $repo"
+  git clone "$repo"
+done < "$REPO_FILE"
+
+echo "All repos cloned."
