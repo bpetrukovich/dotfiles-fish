@@ -20,8 +20,8 @@ sudo apt install -y build-essential ca-certificates git unzip curl wget ripgrep 
 sudo apt-add-repository -y ppa:fish-shell/release-4
 sudo apt update
 sudo apt install -y fish
-echo "$(command -v fish)" | sudo tee -a /etc/shells
-sudo chsh -s "$(command -v fish)"
+echo "$(which fish)" | sudo tee -a /etc/shells
+chsh -s "$(which fish)"
 
 # nerd font
 # Needed to be installed in the host windows system and setted up in terminal like WezTerm, Alacritty or Windows Terminal
@@ -41,6 +41,9 @@ curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh 
 
 # atuin
 curl --proto '=https' --tlsv1.2 -LsSf https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh | sh
+# rm .zshrc, because this script creates it
+# TODO: also will be good to remove trash from the end of the .bashrc
+rm -rf ~/.zshrc
 ~/.atuin/bin/atuin login
 ~/.atuin/bin/atuin sync
 
@@ -74,7 +77,7 @@ curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/i
 
 # usefull
 # sudo apt install -y tshark
-sudo apt install -y tldr fd-find eza bat sd
+sudo apt install -y tldr fd-find eza bat sd ncdu btop
 ln -s /usr/bin/batcat ~/.local/bin/bat
 # download the database immediately so you don’t have to wait later
 tldr -u
@@ -127,6 +130,7 @@ echo "Work git config is saved in: ~/.gitconfig-work"
 
 # ssh + github
 # NOTE: creates without password
+# TODO: clip.exe is not stable, so need to replace
 ssh-keygen -t ed25519 -C $personal_email -f ~/.ssh/id_ed25519 -N ""
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
@@ -139,7 +143,6 @@ else
     echo "Copy given key to GitHub"
 fi
 read -p "Press Enter after adding ssh key to GitHub..."
-ssh -T git@github.com
 
 # TODO: we can repeat with work email if user wants
 
