@@ -41,6 +41,9 @@ curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh 
 
 # atuin
 curl --proto '=https' --tlsv1.2 -LsSf https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh | sh
+# rm .zshrc, because this script creates it
+# TODO: also will be good to remove trash from the end of the .bashrc
+rm -rf ~/.zshrc
 ~/.atuin/bin/atuin login
 ~/.atuin/bin/atuin sync
 
