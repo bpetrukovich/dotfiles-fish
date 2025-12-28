@@ -15,56 +15,177 @@ extra_dirs=(
 )
 
 get_dirs() {
-  find "${project_dirs[@]}" \
-    -mindepth 2 -maxdepth 2 \
-    -type d \
-    -not -path '*/.*' 2>/dev/null
-
-  printf '%s\n' "${extra_dirs[@]}"
+  {
+    find "${project_dirs[@]}" \
+      -mindepth 2 -maxdepth 2 \
+      -type d \
+      -not -path '*/.*' 2>/dev/null
+    
+    printf '%s\n' "${extra_dirs[@]}"
+  }
 }
 
-selected_dirs=$(get_dirs | fzf --multi)
-
-[[ -z $selected_dirs ]] && exit 0
-
-tmux_running=$(pgrep tmux)
-count=$(echo "$selected_dirs" | wc -l)
-
-if [[ $count -eq 1 ]]; then
-  dir="$selected_dirs"
-  name=$(basename "$dir" | tr . _)
-
-  if ! tmux has-session -t="$name" 2>/dev/null; then
-    tmux new-session -ds "$name" -c "$dir"
+get_dirs_with_zoxide() {
+  local all_dirs
+  local temp_file
+  
+  all_dirs=$(get_dirs)
+  
+  if ! command -v zoxide >/dev/null 2>&1; then
+    echo "$all_dirs"
+    return
   fi
+  
+  temp_file=$(mktemp)
+  echo "$all_dirs" > "$temp_file"
+  
+  while IFS= read -r dir; do
+    [[ -z "$dir" ]] && continue
+    score=$(zoxide query -s "$dir" 2>/dev/null | awk '{print $1}')
+    printf "%s\t%s\n" "${score:-0}" "$dir"
+  done < "$temp_file" | sort -rnk1 | cut -f2-
+  
+  rm -f "$temp_file"
+}
+
+create_preview_script() {
+  cat <<'EOF'
+#!/usr/bin/env bash
+dir="$1"
+if [[ -z "$dir" ]] || [[ ! -d "$dir" ]]; then
+  echo "Directory not found"
+  exit 0
+fi
+
+echo "=== $(basename "$dir") ==="
+echo "Path: $dir"
+
+readme_file=""
+for file in "$dir/README.md" "$dir/README" "$dir/readme.md" "$dir/Readme.md"; do
+  if [[ -f "$file" ]]; then
+    readme_file="$file"
+    break
+  fi
+done
+
+if [[ -n "$readme_file" ]]; then
+  echo "README: $(basename "$readme_file")"
+  echo "======================================"
+  if command -v bat >/dev/null 2>&1; then
+    bat --style=plain --color=always "$readme_file" 2>/dev/null | head -30
+  else
+    head -n 30 "$readme_file" 2>/dev/null | head -20
+  fi
+else
+  echo "No README"
+  echo "======================================"
+  ls -la "$dir" 2>/dev/null | head -15
+fi
+EOF
+}
+
+update_cache() {
+  if command -v zoxide >/dev/null 2>&1; then
+    get_dirs_with_zoxide > /tmp/tmux_dirs_cache
+  else
+    get_dirs > /tmp/tmux_dirs_cache
+  fi
+  echo "Cache updated" >&2
+}
+
+main() {
+  local preview_script
+  local fzf_preview_cmd
+  
+  preview_script=$(mktemp)
+  create_preview_script > "$preview_script"
+  chmod +x "$preview_script"
+  fzf_preview_cmd="bash $preview_script {}"
+  
+  if [[ ! -f /tmp/tmux_dirs_cache ]] || ! find /tmp/tmux_dirs_cache -mmin -30 2>/dev/null >/dev/null; then
+    update_cache
+  fi
+  
+  local cached_dirs
+  cached_dirs=$(cat /tmp/tmux_dirs_cache 2>/dev/null)
+  
+  local selected_dirs
+  selected_dirs=$(echo "$cached_dirs" | fzf --multi \
+    --prompt "﬿ " \
+    --preview "$fzf_preview_cmd" \
+    --preview-window="right:60%:wrap" \
+    --bind "ctrl-r:execute(rm -f /tmp/tmux_dirs_cache && $0 --update-cache && $0)+abort")
+  
+  rm -f "$preview_script"
+  
+  [[ -z $selected_dirs ]] && exit 0
+  
+  process_selected_dirs "$selected_dirs"
+}
+
+process_selected_dirs() {
+  local selected_dirs="$1"
+  local tmux_running
+  local count
+  local dir
+  local name
+  local first_name
+  
+  tmux_running=$(pgrep tmux)
+  count=$(echo "$selected_dirs" | wc -l)
+
+  if [[ $count -eq 1 ]]; then
+    dir="$selected_dirs"
+    name=$(basename "$dir" | tr . _)
+    zoxide add "$dir"
+
+    if ! tmux has-session -t="$name" 2>/dev/null; then
+      tmux new-session -ds "$name" -c "$dir"
+    fi
+
+    if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+      tmux attach -t "$name"
+    elif [[ -z $TMUX ]]; then
+      tmux attach -t "$name"
+    else
+      tmux switch-client -t "$name"
+    fi
+
+    exit 0
+  fi
+
+  while IFS= read -r dir; do
+    [[ -z "$dir" ]] && continue
+    zoxide add "$dir"
+    name=$(basename "$dir" | tr . _)
+    if ! tmux has-session -t="$name" 2>/dev/null; then
+      tmux new-session -ds "$name" -c "$dir"
+    fi
+  done <<< "$selected_dirs"
 
   if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux attach -t "$name"
-  elif [[ -z $TMUX ]]; then
-    tmux attach -t "$name"
+    first_name=$(basename "$(echo "$selected_dirs" | head -n1)" | tr . _)
+    tmux attach -t "$first_name"
+    exit 0
+  fi
+
+  if [[ -n $TMUX ]]; then
+    tmux choose-session
   else
-    tmux switch-client -t "$name"
+    tmux attach
   fi
+}
 
-  exit 0
-fi
-
-while IFS= read -r dir; do
-  [[ -z "$dir" ]] && continue
-  name=$(basename "$dir" | tr . _)
-  if ! tmux has-session -t="$name" 2>/dev/null; then
-    tmux new-session -ds "$name" -c "$dir"
-  fi
-done <<< "$selected_dirs"
-
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-  first_name=$(basename "$(echo "$selected_dirs" | head -n1)" | tr . _)
-  tmux attach -t "$first_name"
-  exit 0
-fi
-
-if [[ -n $TMUX ]]; then
-  tmux choose-session
-else
-  tmux attach
-fi
+case "$1" in
+  "--update-cache")
+    update_cache
+    exit 0
+    ;;
+  "--generate-cache")
+    update_cache
+    exit 0
+    ;;
+  *)
+    main
+    ;;
+esac
