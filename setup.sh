@@ -130,6 +130,7 @@ echo "Work git config is saved in: ~/.gitconfig-work"
 
 # ssh + github
 # NOTE: creates without password
+# TODO: clip.exe is not stable, so need to replace
 ssh-keygen -t ed25519 -C $personal_email -f ~/.ssh/id_ed25519 -N ""
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
