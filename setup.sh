@@ -77,7 +77,7 @@ curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/i
 
 # usefull
 # sudo apt install -y tshark
-sudo apt install -y tldr fd-find eza bat sd
+sudo apt install -y tldr fd-find eza bat sd ndcu btop
 ln -s /usr/bin/batcat ~/.local/bin/bat
 # download the database immediately so you don’t have to wait later
 tldr -u
