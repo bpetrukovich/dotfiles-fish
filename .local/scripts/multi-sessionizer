@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# TODO: see if I can make this fast without caching
+# TODO: integrate tmuxp
+
 project_dirs=(
   "$HOME/personal/"
   "$HOME/work/"
