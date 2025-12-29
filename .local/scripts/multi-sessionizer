@@ -11,6 +11,10 @@ extra_dirs=(
   "$HOME/.config/nvim/"
   "$HOME/.config/fish/"
   "$HOME/.config/"
+  "$HOME/.tmuxp/"
+  "$HOME/work/back/"
+  "$HOME/work/front/"
+  "$HOME/personal/"
   "$HOME/"
 )
 
@@ -111,7 +115,7 @@ main() {
   
   local selected_dirs
   selected_dirs=$(echo "$cached_dirs" | fzf --multi \
-    --prompt "﬿ " \
+    --prompt "Project > " \
     --preview "$fzf_preview_cmd" \
     --preview-window="right:60%:wrap" \
     --bind "ctrl-r:execute(rm -f /tmp/tmux_dirs_cache && $0 --update-cache && $0)+abort")
