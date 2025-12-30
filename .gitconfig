@@ -1,6 +1,6 @@
 [include]
     path = ~/.gitconfig-personal
-[includeIf "gitdir:~/work"] path = ~/.gitconfig-work
+[includeIf "gitdir:~/work/**"] path = ~/.gitconfig-work
 [init]
   defaultBranch = main
 [core]

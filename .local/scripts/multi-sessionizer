@@ -18,6 +18,7 @@ extra_dirs=(
   "$HOME/work/back/"
   "$HOME/work/front/"
   "$HOME/personal/"
+  "$HOME/work/"
   "$HOME/"
 )
 
