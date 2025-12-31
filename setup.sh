@@ -215,6 +215,12 @@ curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fi
 fisher install kidonng/zoxide.fish
 fisher install PatrickF1/fzf.fish
 
+# gita
+# sudo apt install python3-pip
+# sudo apt install -y pipx
+# pipx ensurepath
+# pipx install gita
+
 # ----
 # TODO:
 echo "Need to set up system limits: fs.inotify.max_user_instances, fs.inotify.max_user_watches, ulimit"
