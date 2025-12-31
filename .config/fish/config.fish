@@ -7,3 +7,4 @@ if status is-interactive
 end
 
 set fzf_diff_highlighter delta --paging=never --width=20
+set fzf_fd_opts --hidden
