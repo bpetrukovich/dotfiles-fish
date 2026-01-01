@@ -19,3 +19,5 @@
   conflictStyle = zdiff3
 [branch]
   sort = -committerdate
+[commit]
+  verbose = true
