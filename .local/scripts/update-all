@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Update all installed apt packages
+sudo apt update && sudo apt upgrade -y
+
+# Update all installed npm packages
+npm update -g
