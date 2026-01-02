@@ -20,6 +20,7 @@ extra_dirs=(
   "$HOME/personal/"
   "$HOME/work/"
   "$HOME/"
+  "/mnt/c/Users/b.petrukovich/.config/wezterm/"
 )
 
 get_dirs() {
