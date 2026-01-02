@@ -48,7 +48,7 @@ rm -rf ~/.zshrc
 ~/.atuin/bin/atuin sync
 
 # tools for git
-sudo apt install -y git-delta tig
+sudo apt install -y git-delta
 
 # lazygit
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
