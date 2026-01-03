@@ -211,9 +211,10 @@ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stabl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 rm -rf kubectl
 
-curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
-fisher install kidonng/zoxide.fish
-fisher install PatrickF1/fzf.fish
+# fisher + plugins (must run in fish shell)
+fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
+fish -c 'fisher install kidonng/zoxide.fish'
+fish -c 'fisher install PatrickF1/fzf.fish'
 
 npm install @ast-grep/cli -g
 
