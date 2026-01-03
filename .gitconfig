@@ -21,3 +21,5 @@
   sort = -committerdate
 [commit]
   verbose = true
+[fetch]
+  prune = true
