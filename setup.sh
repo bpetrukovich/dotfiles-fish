@@ -14,7 +14,7 @@ touch ~/.hushlogin
 
 # essential
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y build-essential ca-certificates git unzip curl wget ripgrep jq
+sudo apt install -y build-essential ca-certificates git unzip curl wget ripgrep jq make
 
 # fish
 sudo apt-add-repository -y ppa:fish-shell/release-4
