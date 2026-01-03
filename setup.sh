@@ -215,6 +215,8 @@ curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fi
 fisher install kidonng/zoxide.fish
 fisher install PatrickF1/fzf.fish
 
+npm install @ast-grep/cli -g
+
 # gita
 # sudo apt install python3-pip
 # sudo apt install -y pipx
