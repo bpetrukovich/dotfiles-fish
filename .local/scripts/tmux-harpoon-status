@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+file="${XDG_CACHE_HOME:-$HOME/.cache}/tmux-harpoon"
+[ ! -f "$file" ] && exit 0
+
+# Get current session path
+current_path=$(tmux display-message -p '#{session_path}' 2>/dev/null)
+
+# Colors (matching dragon theme)
+normal_bg="#737C73"
+highlight_bg="#c4b28a"
+
+keys=(h j k l)
+output=""
+is_current_in_list=false
+i=0
+
+while IFS= read -r path && [ $i -lt 4 ]; do
+    [ -z "$path" ] && continue
+    name=$(basename "$path")
+    
+    # Truncate long names from the beginning
+    max_len=12
+    if [ ${#name} -gt $max_len ]; then
+        name="…${name: -$((max_len-1))}"
+    fi
+    
+    # Highlight if current session
+    if [ "$path" = "$current_path" ]; then
+        is_current_in_list=true
+        output+="#[bg=$highlight_bg] ${keys[$i]}:$name #[bg=$normal_bg]"
+    else
+        output+=" ${keys[$i]}:$name "
+    fi
+    
+    ((i++))
+done < "$file"
+
+echo "#[bg=default] #[bg=$normal_bg]${output%}"
+

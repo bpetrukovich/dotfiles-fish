@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+current=$(tmux display-message -p '#{session_name}')
+
+# Get another session to switch to
+other=$(tmux list-sessions -F '#{session_name}' | grep -v "^${current}$" | head -1)
+
+if [ -n "$other" ]; then
+    # Switch first, then kill
+    tmux switch-client -t "$other"
+    tmux kill-session -t "$current"
+    tmux display-message "Killed: $current"
+else
+    # Last session - just kill (will detach from tmux and kill the server)
+    tmux kill-session -t "$current"
+fi
+

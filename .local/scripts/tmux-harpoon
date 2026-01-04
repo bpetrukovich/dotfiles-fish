@@ -13,6 +13,7 @@ add() {
     else
         tmux display-message "Already tracked: $path"
     fi
+    tmux refresh-client -S
 }
 
 edit() {
@@ -27,6 +28,7 @@ go() {
     [ -z "$path" ] && return 0
     [ ! -d "$path" ] && return 0
     ~/.local/scripts/multi-sessionizer "$path"
+    tmux refresh-client -S
 }
 
 case "${1:-}" in

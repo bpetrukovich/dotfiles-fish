@@ -131,6 +131,7 @@ process_selected_dirs() {
       tmux attach -t "$name"
     else
       tmux switch-client -t "$name"
+      tmux refresh-client -S
     fi
     exit 0
   fi
@@ -151,6 +152,7 @@ process_selected_dirs() {
     tmux attach -t "$first"
   elif [[ -n "$TMUX" ]]; then
     tmux choose-session
+    tmux refresh-client -S
   else
     tmux attach
   fi
