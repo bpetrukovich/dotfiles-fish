@@ -21,6 +21,22 @@ edit() {
     tmux popup -E -w 60 -h 9 "vim $HARPOON_FILE"
 }
 
+open() {
+    touch "$HARPOON_FILE"
+    vim "$HARPOON_FILE"
+}
+
+ls() {
+    touch "$HARPOON_FILE"
+    local keys=(h j k l)
+    local i=0
+    while IFS= read -r path && [ $i -lt 4 ]; do
+        [ -z "$path" ] && continue
+        echo "${keys[$i]}: $(basename "$path")  ($path)"
+        i=$((i + 1))
+    done < "$HARPOON_FILE"
+}
+
 go() {
     local index=$1
     local path
@@ -34,7 +50,9 @@ go() {
 case "${1:-}" in
     add)  add ;;
     edit) edit ;;
+    open) open ;;
+    ls)   ls ;;
     go)   go "${2:-1}" ;;
-    *)    echo "Usage: tmux-harpoon {add|edit|go N}" ;;
+    *)    echo "Usage: tmux-harpoon {add|edit|open|ls|go N}" ;;
 esac
 
