@@ -5,25 +5,25 @@
 # =========================
 
 project_dirs=(
-  "$HOME/personal/"
-  "$HOME/work/"
+  "$HOME/personal"
+  "$HOME/work"
 )
 
 extra_dirs=(
-  "$HOME/obsidian-vault/"
-  "$HOME/.local/scripts/"
-  "$HOME/.local/share/"
-  "$HOME/.config/nvim/"
-  "$HOME/.config/fish/"
-  "$HOME/.config/"
-  "$HOME/.tmuxp/"
-  "$HOME/work/back/"
-  "$HOME/work/front/"
-  "$HOME/personal/"
-  "$HOME/work/"
-  "$HOME/buffer/"
-  "$HOME/"
-  "/mnt/c/Users/b.petrukovich/.config/wezterm/"
+  "$HOME/obsidian-vault"
+  "$HOME/.local/scripts"
+  "$HOME/.local/share"
+  "$HOME/.config/nvim"
+  "$HOME/.config/fish"
+  "$HOME/.config"
+  "$HOME/.tmuxp"
+  "$HOME/work/back"
+  "$HOME/work/front"
+  "$HOME/personal"
+  "$HOME/work"
+  "$HOME/buffer"
+  "$HOME"
+  "/mnt/c/Users/b.petrukovich/.config/wezterm"
 )
 
 CACHE_FILE="/tmp/tmux_dirs_cache"
