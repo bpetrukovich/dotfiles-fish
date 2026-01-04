@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+HARPOON_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/tmux-harpoon"
+
+add() {
+    local path
+    path=$(tmux display-message -p '#{session_path}')
+    touch "$HARPOON_FILE"
+    if ! grep -qxF "$path" "$HARPOON_FILE"; then
+        echo "$path" >> "$HARPOON_FILE"
+        tmux display-message "Added: $path"
+    else
+        tmux display-message "Already tracked: $path"
+    fi
+}
+
+edit() {
+    touch "$HARPOON_FILE"
+    tmux popup -E -w 60 -h 9 "vim $HARPOON_FILE"
+}
+
+go() {
+    local index=$1
+    local path
+    path=$(sed -n "${index}p" "$HARPOON_FILE" 2>/dev/null)
+    [ -z "$path" ] && return 0
+    [ ! -d "$path" ] && return 0
+    ~/.local/scripts/multi-sessionizer "$path"
+}
+
+case "${1:-}" in
+    add)  add ;;
+    edit) edit ;;
+    go)   go "${2:-1}" ;;
+    *)    echo "Usage: tmux-harpoon {add|edit|go N}" ;;
+esac
+
