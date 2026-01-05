@@ -21,4 +21,7 @@ function fish_user_key_bindings
     bind -M insert \eo 'multi-sessionizer /home/bogdan/obsidian-vault'
     bind -M insert \en 'multi-sessionizer /home/bogdan/.config/nvim'
     bind -M insert \e\` 'multi-sessionizer /home/bogdan'
+
+    bind ctrl-alt-b fzf_search_git_branch
+    bind -M insert ctrl-alt-b fzf_search_git_branch
 end
