@@ -9,9 +9,6 @@ add() {
     touch "$HARPOON_FILE"
     if ! grep -qxF "$path" "$HARPOON_FILE"; then
         echo "$path" >> "$HARPOON_FILE"
-        tmux display-message "Added: $path"
-    else
-        tmux display-message "Already tracked: $path"
     fi
     tmux refresh-client -S
 }
@@ -28,11 +25,10 @@ open() {
 
 ls() {
     touch "$HARPOON_FILE"
-    local keys=(h j k l)
     local i=0
     while IFS= read -r path && [ $i -lt 4 ]; do
         [ -z "$path" ] && continue
-        echo "${keys[$i]}: $(basename "$path")  ($path)"
+        echo "$(basename "$path")  ($path)"
         i=$((i + 1))
     done < "$HARPOON_FILE"
 }
