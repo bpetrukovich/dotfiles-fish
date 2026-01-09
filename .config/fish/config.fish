@@ -1,7 +1,7 @@
 set fish_greeting
 
 if status is-interactive
-    fzf_configure_bindings --git_status= --history= --variables=\e\cv
+    fzf_configure_bindings --history= --variables=\e\cv
     atuin init fish --disable-up-arrow | source
     starship init fish | source
 end
