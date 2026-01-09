@@ -218,6 +218,10 @@ fish -c 'fisher install PatrickF1/fzf.fish'
 
 npm install @ast-grep/cli -g
 
+# install dependencies for chrome
+# NOTE: maybe best to just install chromium, because we need it for testrunning
+sudo apt install -y libglib2.0-0 libnss3 libatk1.0-0 libatk-bridge2.0-0 libx11-xcb1 libxcb1 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libasound2t64 libpangocairo-1.0-0 libxshmfence1 libgtk-3-0 libxss1 fonts-liberation libappindicator3-1 xdg-utils ca-certificates libxkbcommon0
+
 # gita
 # sudo apt install python3-pip
 # sudo apt install -y pipx
