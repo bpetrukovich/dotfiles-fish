@@ -11,6 +11,7 @@ project_dirs=(
 
 extra_dirs=(
   "$HOME/obsidian-vault"
+  "$HOME/docker-services/"
   "$HOME/.local/scripts"
   "$HOME/.local/share"
   "$HOME/.config/nvim"
