@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: seems like i don't need preview
+
 # =========================
 # CONFIG
 # =========================
