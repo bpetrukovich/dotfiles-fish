@@ -18,10 +18,8 @@ extra_dirs=(
   "$HOME/.config/fish"
   "$HOME/.config"
   "$HOME/.tmuxp"
-  "$HOME/work/back"
-  "$HOME/work/front"
-  "$HOME/personal"
   "$HOME/work"
+  "$HOME/personal"
   "$HOME/buffer"
   "$HOME"
   "/mnt/c/Users/b.petrukovich/.config/wezterm"
@@ -36,7 +34,7 @@ CACHE_FILE="/tmp/tmux_dirs_cache"
 get_dirs() {
   {
     find "${project_dirs[@]}" \
-      -mindepth 2 -maxdepth 2 \
+      -mindepth 1 -maxdepth 2 \
       -type d \
       -not -path '*/.*' 2>/dev/null
 
