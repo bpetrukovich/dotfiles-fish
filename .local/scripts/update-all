@@ -5,3 +5,6 @@ sudo apt update && sudo apt upgrade -y
 
 # Update all installed npm packages
 npm update -g
+
+# Update all installed nuget packages
+dotnet tool update --all -g
