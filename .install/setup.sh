@@ -3,6 +3,8 @@ set -e
 
 # WARN: You should run this script from home directory
 
+# TODO: add README
+
 if [ ! -f /proc/version ] || ! grep -qi microsoft /proc/version; then
     echo "This script is optimized for WSL. Continue? (y/N)"
     read -r response
