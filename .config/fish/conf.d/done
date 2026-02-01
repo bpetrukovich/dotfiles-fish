@@ -27,7 +27,7 @@ function my_hook_end --on-event fish_postexec
         set ps_title (escape_xml "$title ($duration s)")
         set ps_message (escape_xml "$current_command")
 
-        powershell.exe -NoProfile -Command "
+        /mnt/c/Windows/System32/cmd.exe /c powershell.exe -NoProfile -Command "
             [Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType=WindowsRuntime] | Out-Null;
             [Windows.UI.Notifications.ToastNotification, Windows.UI.Notifications, ContentType=WindowsRuntime] | Out-Null;
             \$xml = New-Object Windows.Data.Xml.Dom.XmlDocument;
@@ -65,7 +65,7 @@ function done
     set ps_title (escape_xml "$title ($duration s)")
     set ps_message (escape_xml $cmd)
 
-    powershell.exe -NoProfile -Command "
+    /mnt/c/Windows/System32/cmd.exe /c powershell.exe -NoProfile -Command "
         [Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType=WindowsRuntime] | Out-Null;
         [Windows.UI.Notifications.ToastNotification, Windows.UI.Notifications, ContentType=WindowsRuntime] | Out-Null;
         \$xml = New-Object Windows.Data.Xml.Dom.XmlDocument;
