@@ -1,1 +1,13 @@
+local-env.fish
+NuGet.Config
+.env
 git-ignored/
+buffer/
+.npmrc
+.local/
+.bash_history
+.supermaven/
+.aws/
+.kube/
+.aspnet/
+.ssh/
