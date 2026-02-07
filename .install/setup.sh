@@ -18,6 +18,7 @@ touch ~/.hushlogin
 
 # essential
 sudo apt update && sudo apt upgrade -y
+# FIX: problems with ripgrep
 sudo apt install -y build-essential ca-certificates git unzip curl wget ripgrep jq make
 
 # fish
