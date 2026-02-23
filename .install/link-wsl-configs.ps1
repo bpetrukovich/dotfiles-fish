@@ -4,7 +4,9 @@
 #       It will create symlinks in the Windows user's home directory
 #       pointing to the AWS and Kubernetes configuration directories in WSL.
 
-$wsl = "\\wsl.localhost\fish-wsl\home\bogdan"
+# FIX: depends on the wsl name being "wsl-ubuntu"
+
+$wsl = "\\wsl.localhost\wsl-ubuntu\home\bogdan"
 $home = $env:USERPROFILE
 
 Remove-Item "$home\.aws"  -Recurse -Force -ErrorAction SilentlyContinue

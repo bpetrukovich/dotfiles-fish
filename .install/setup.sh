@@ -96,6 +96,8 @@ if [ -d "$FNM_DIR" ]; then
 fi
 fnm install --lts
 
+npm install -g wsl-open
+
 # dotnet
 
 sudo apt-get install -y dotnet-sdk-10.0
@@ -228,13 +230,16 @@ npm install @ast-grep/cli -g
 sudo apt install -y libglib2.0-0 libnss3 libatk1.0-0 libatk-bridge2.0-0 libx11-xcb1 libxcb1 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libasound2t64 libpangocairo-1.0-0 libxshmfence1 libgtk-3-0 libxss1 fonts-liberation libappindicator3-1 xdg-utils ca-certificates libxkbcommon0
 
 # gita
-# sudo apt install python3-pip
-# sudo apt install -y pipx
-# pipx ensurepath
-# pipx install gita
+sudo apt install python3-pip
+sudo apt install -y pipx
+pipx ensurepath
+pipx install gita
 
 # ----
 # TODO:
 echo "Need to set up system limits: fs.inotify.max_user_instances, fs.inotify.max_user_watches, ulimit"
 
 # Healthcheck
+
+# fnm use 22.12.0
+# fnm default 22.12.0
