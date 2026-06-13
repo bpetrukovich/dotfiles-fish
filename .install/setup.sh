@@ -219,9 +219,7 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 rm -rf kubectl
 
 # fisher + plugins (must run in fish shell)
-fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
-fish -c 'fisher install kidonng/zoxide.fish'
-fish -c 'fisher install PatrickF1/fzf.fish'
+fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher update'
 
 npm install @ast-grep/cli -g
 
