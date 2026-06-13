@@ -25,6 +25,8 @@
 [delta]
   navigate = true
   dark = true
+  # side-by-side view has line-numbers activated by default
+  side-by-side = true
 [merge]
   conflictStyle = zdiff3
 [branch]
