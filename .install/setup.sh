@@ -3,8 +3,6 @@ set -e
 
 # WARN: You should run this script from home directory
 
-# TODO: add README
-
 if [ ! -f /proc/version ] || ! grep -qi microsoft /proc/version; then
     echo "This script is optimized for WSL. Continue? (y/N)"
     read -r response
@@ -98,7 +96,6 @@ fnm install --lts
 npm install -g wsl-open
 
 # dotnet
-
 sudo apt-get install -y dotnet-sdk-10.0
 dotnet tool install --global dotnet-ef
 
