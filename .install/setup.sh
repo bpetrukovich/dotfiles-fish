@@ -82,10 +82,9 @@ curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/i
 
 # usefull
 # sudo apt install -y tshark
-sudo apt install -y tldr fd-find eza bat sd ncdu btop
+sudo apt install -y fd-find eza bat sd ncdu btop
 ln -s /usr/bin/batcat ~/.local/bin/bat
 # download the database immediately so you don’t have to wait later
-tldr -u
 
 # node (fnm)
 curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell # no change in rc file
