@@ -10,3 +10,4 @@ buffer/
 .kube/
 .aspnet/
 .ssh/
+.gitconfig-*
