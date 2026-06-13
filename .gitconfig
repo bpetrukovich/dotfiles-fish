@@ -16,17 +16,10 @@
 [core]
   editor = nvim
   excludesFile = ~/.gitignore
-  pager = delta
+  # set \n when committing, leave \r\n or \r locally on checkout
   autocrlf = input
 [push]
   autoSetupRemote = true
-[interactive]
-  diffFilter = delta --color-only
-[delta]
-  navigate = true
-  dark = true
-  # side-by-side view has line-numbers activated by default
-  side-by-side = true
 [merge]
   conflictStyle = zdiff3
 [branch]
@@ -35,3 +28,15 @@
   verbose = true
 [fetch]
   prune = true
+
+# Delta
+# https://github.com/dandavison/delta
+[core]
+  pager = delta
+[delta]
+  navigate = true
+  dark = true
+  # side-by-side view has line-numbers activated by default
+  side-by-side = true
+[interactive] # git add -p or git add -i
+  diffFilter = delta --color-only
