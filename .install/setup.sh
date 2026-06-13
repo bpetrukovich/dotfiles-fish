@@ -190,7 +190,7 @@ fi
 mkdir -v ~/personal ~/work
 # 
 mkdir -v ~/personal/sandbox ~/work/sandbox
-mkdir -v ~/personal/pet 
+mkdir -v ~/personal/pet
 
 # buffer, all external files go here first, then either transferred or deleted from here. Thanks to this folder, all others remain clean
 mkdir -v ~/buffer
@@ -226,12 +226,3 @@ sudo apt install python3-pip
 sudo apt install -y pipx
 pipx ensurepath
 pipx install gita
-
-# ----
-# TODO:
-echo "Need to set up system limits: fs.inotify.max_user_instances, fs.inotify.max_user_watches, ulimit"
-
-# Healthcheck
-
-# fnm use 22.12.0
-# fnm default 22.12.0
