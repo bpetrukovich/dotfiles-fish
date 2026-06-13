@@ -4,7 +4,8 @@ function fish_user_key_bindings
     bind \cf 'multi-sessionizer'
     bind -M insert \cf 'multi-sessionizer'
 
-    # Harpoon
+    # Tmux Harpoon (see ~/.local/scripts/tmux-harpoon)
+    # Should be in sync with ~/.tmux.conf
     bind \eh 'tmux-harpoon go 1'
     bind \ej 'tmux-harpoon go 2'
     bind \ek 'tmux-harpoon go 3'
@@ -14,7 +15,8 @@ function fish_user_key_bindings
     bind -M insert \ek 'tmux-harpoon go 3'
     bind -M insert \el 'tmux-harpoon go 4'
 
-    # Quick sessions
+    # Multi Sessionizer (see ~/.local/scripts/multi-sessionizer)
+    # Should be in sync with ~/.tmux.conf
     bind \eo 'multi-sessionizer /home/bogdan/obsidian-vault'
     bind \en 'multi-sessionizer /home/bogdan/.config/nvim'
     bind \e\` 'multi-sessionizer /home/bogdan'

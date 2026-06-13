@@ -69,7 +69,7 @@ build-essential and make for C/C++
 
 Remove install.sh from home directory.
 
-Create separate .gitconfig-profile file in home directory with email and name and change .gitconfig. (see ~/.gitconfig)
+Create separate `.gitconfig-profile` file in home directory with email and name and change .gitconfig. (see `~/.gitconfig`)
 
 BTW install script will ask for email and name for personal and work git accounts and create those files
 
@@ -77,11 +77,47 @@ Set up system limits: fs.inotify.max_user_instances, fs.inotify.max_user_watches
 
 ## Features
 
-### "Done" script
+### Tmux
 
-You can run "done some-task" to get notification when this task is done.
+#### Multisessionizer
 
-see ~/.config/fish/functions/done.fish
+see `~/.local/scripts/multi-sessionizer`, `~/.tmux.conf`, `~/.config/fish/functions/fish_user_key_bindings.fish`
+
+#### Tmux Harpoon
+
+see `~/.local/scripts/tmux-harpoon`, `~/.tmux.conf`, `~/.config/fish/functions/fish_user_key_bindings.fish`
+
+### Fish
+
+#### `Done` utility
+
+You can run `done some-task` to get notification when this task is done.
+
+Eg. `done "dotnet build"` will notify you when dotnet build is done.
+
+see `~/.config/fish/functions/done.fish`
+
+#### `col N` utility
+
+You can pipe output of any command to `col N` to get N column
+
+Eg. `git status -s | col 2` to get all changed files
+
+see `~/.config/fish/functions/col.fish`
+
+#### fzf_search_git_branch
+
+`ctrl-alt-b` to search git branches
+
+### Scripts
+
+#### clone-all
+
+Clone all repos listed in files
+
+#### collect-remotes
+
+Collect all remotes from all repos so you can later clone them with `clone-all`
 
 ## Maintain this repository
 
