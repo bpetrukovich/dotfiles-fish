@@ -4,7 +4,6 @@ NuGet.Config
 git-ignored/
 buffer/
 .npmrc
-.local/
 .bash_history
 .supermaven/
 .aws/

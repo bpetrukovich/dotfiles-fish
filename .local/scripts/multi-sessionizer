@@ -9,6 +9,7 @@
 project_dirs=(
   "$HOME/personal"
   "$HOME/work"
+  "$HOME/itr"
 )
 
 extra_dirs=(
@@ -19,7 +20,7 @@ extra_dirs=(
   "$HOME/.config/nvim"
   "$HOME/.config/fish"
   "$HOME/.config"
-  "$HOME/.tmuxp"
+  "$HOME/tmuxp"
   "$HOME/work"
   "$HOME/personal"
   "$HOME/buffer"

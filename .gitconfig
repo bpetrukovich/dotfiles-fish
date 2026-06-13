@@ -1,6 +1,16 @@
+# For each email you use you can create separate .gitconfig file in home directory with email and name
+#
+# Example
+# /home/bogdan/.gitconfig-personal:
+# [user]
+#     email = example@email.com
+#     name = Bogdan Petrukovich
+
 [include]
   path = ~/.gitconfig-personal
 [includeIf "gitdir:~/work/**"] path = ~/.gitconfig-work
+[includeIf "gitdir:~/itr/**"] path = ~/.gitconfig-itr
+
 [init]
   defaultBranch = main
 [core]
