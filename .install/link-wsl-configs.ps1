@@ -4,9 +4,23 @@
 #       It will create symlinks in the Windows user's home directory
 #       pointing to the AWS and Kubernetes configuration directories in WSL.
 
-# FIX: depends on the wsl name being "wsl-ubuntu"
+# Prompt for WSL distribution name
+do {
+    $wslDistro = Read-Host "Enter WSL distribution name"
+    if ([string]::IsNullOrWhiteSpace($wslDistro)) {
+        Write-Host "Distribution name cannot be empty. Please try again." -ForegroundColor Red
+    }
+} while ([string]::IsNullOrWhiteSpace($wslDistro))
 
-$wsl = "\\wsl.localhost\wsl-ubuntu\home\bogdan"
+# Prompt for WSL username
+do {
+    $wslUser = Read-Host "Enter WSL linux username"
+    if ([string]::IsNullOrWhiteSpace($wslUser)) {
+        Write-Host "Username cannot be empty. Please try again." -ForegroundColor Red
+    }
+} while ([string]::IsNullOrWhiteSpace($wslUser))
+
+$wsl = "\\wsl.localhost\$wslDistro\home\$wslUser"
 $home = $env:USERPROFILE
 
 Remove-Item "$home\.aws"  -Recurse -Force -ErrorAction SilentlyContinue
