@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# TODO: seems like i don't need preview
+# TODO: check if i really need cache
 
 # =========================
 # CONFIG
@@ -59,40 +59,6 @@ get_dirs_with_zoxide() {
   done < "$temp_file" | sort -rnk1 | cut -f2-
 
   rm -f "$temp_file"
-}
-
-# =========================
-# PREVIEW
-# =========================
-
-create_preview_script() {
-  cat <<'EOF'
-#!/usr/bin/env bash
-dir="$1"
-
-[[ -z "$dir" || ! -d "$dir" ]] && exit 0
-
-echo "=== $(basename "$dir") ==="
-echo "Path: $dir"
-echo
-
-for file in "$dir"/README{,.md} "$dir"/readme{,.md}; do
-  if [[ -f "$file" ]]; then
-    echo "README: $(basename "$file")"
-    echo "----------------------------------------"
-    if command -v bat >/dev/null 2>&1; then
-      bat --style=plain --color=always "$file" | head -30
-    else
-      head -30 "$file"
-    fi
-    exit 0
-  fi
-done
-
-echo "No README"
-echo "----------------------------------------"
-ls -la "$dir" | head -15
-EOF
 }
 
 # =========================
@@ -182,26 +148,17 @@ main() {
     exit 0
   fi
 
-  # ---------- INTERACTIVE MODE ----------
-  local preview_script
-  preview_script=$(mktemp)
-  create_preview_script > "$preview_script"
-  chmod +x "$preview_script"
-
   if [[ ! -f "$CACHE_FILE" ]] || ! find "$CACHE_FILE" -mmin -30 >/dev/null 2>&1; then
     update_cache
   fi
 
   local selected
   selected=$(cat "$CACHE_FILE" | fzf \
+    --tmux \
     --multi \
     --prompt "Project > " \
-    --preview "bash $preview_script {}" \
-    --preview-window "right:60%:wrap" \
     --bind "ctrl-r:execute(rm -f $CACHE_FILE && $0 --update-cache && $0)+abort"
   )
-
-  rm -f "$preview_script"
 
   [[ -z "$selected" ]] && exit 0
   process_selected_dirs "$selected"
