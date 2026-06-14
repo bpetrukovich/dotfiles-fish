@@ -105,9 +105,14 @@ Eg. `git status -s | col 2` to get all changed files
 
 see `~/.config/fish/functions/col.fish`
 
-#### fzf_search_git_branch
+#### fzf
 
-`ctrl-alt-b` to search git branches
+`ctrl-alt-b` to search git branches (see `~/.config/fish/functions/fzf_search_git_branch.fish`)
+`ctrl-alt-f` to search files
+`ctrl-alt-s` to search git status
+`ctrl-alt-l` to search git log
+`ctrl-alt-p` to search processes
+`ctrl-alt-v` to search variables
 
 ### Scripts
 
