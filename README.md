@@ -107,12 +107,12 @@ see `~/.config/fish/functions/col.fish`
 
 #### fzf
 
-`ctrl-alt-b` to search git branches (see `~/.config/fish/functions/fzf_search_git_branch.fish`)
-`ctrl-alt-f` to search files
-`ctrl-alt-s` to search git status
-`ctrl-alt-l` to search git log
-`ctrl-alt-p` to search processes
-`ctrl-alt-v` to search variables
+- `ctrl-alt-b` to search git branches (see `~/.config/fish/functions/fzf_search_git_branch.fish`)
+- `ctrl-alt-f` to search files
+- `ctrl-alt-s` to search git status
+- `ctrl-alt-l` to search git log
+- `ctrl-alt-p` to search processes
+- `ctrl-alt-v` to search variables
 
 ### Scripts
 
