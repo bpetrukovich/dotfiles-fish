@@ -2,12 +2,11 @@
 
 # TODO: check if i really need cache
 
-# =========================
-# CONFIG
-# =========================
-
-project_dirs=(
+project_dirs_depth_1=(
   "$HOME/personal"
+)
+
+project_dirs_depth_2=(
   "$HOME/work"
   "$HOME/itr"
 )
@@ -30,16 +29,21 @@ extra_dirs=(
 
 CACHE_FILE="/tmp/tmux_dirs_cache"
 
-# =========================
-# DIR COLLECTION
-# =========================
-
 get_dirs() {
   {
-    find "${project_dirs[@]}" \
-      -mindepth 1 -maxdepth 2 \
-      -type d \
-      -not -path '*/.*' 2>/dev/null
+    if [ ${#project_dirs_depth_1[@]} -gt 0 ]; then
+      find "${project_dirs_depth_1[@]}" \
+        -mindepth 1 -maxdepth 1 \
+        -type d \
+        -not -path '*/.*' 2>/dev/null
+    fi
+
+    if [ ${#project_dirs_depth_2[@]} -gt 0 ]; then
+      find "${project_dirs_depth_2[@]}" \
+        -mindepth 1 -maxdepth 2 \
+        -type d \
+        -not -path '*/.*' 2>/dev/null
+    fi
 
     printf '%s\n' "${extra_dirs[@]}"
   }
