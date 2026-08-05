@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# TODO: check if i really need cache
-
 project_dirs_depth_1=(
   "$HOME/personal"
   "$HOME/personal/exercises/"
@@ -27,8 +25,6 @@ extra_dirs=(
   "$HOME"
   "/mnt/c/Users/b.petrukovich/.config/wezterm"
 )
-
-CACHE_FILE="/tmp/tmux_dirs_cache"
 
 get_dirs() {
   {
@@ -64,18 +60,6 @@ get_dirs_with_zoxide() {
   done < "$temp_file" | sort -rnk1 | cut -f2-
 
   rm -f "$temp_file"
-}
-
-# =========================
-# CACHE
-# =========================
-
-update_cache() {
-  if command -v zoxide >/dev/null 2>&1; then
-    get_dirs_with_zoxide > "$CACHE_FILE"
-  else
-    get_dirs > "$CACHE_FILE"
-  fi
 }
 
 # =========================
@@ -153,16 +137,11 @@ main() {
     exit 0
   fi
 
-  if [[ ! -f "$CACHE_FILE" ]] || ! find "$CACHE_FILE" -mmin -30 >/dev/null 2>&1; then
-    update_cache
-  fi
-
   local selected
-  selected=$(cat "$CACHE_FILE" | fzf \
+  selected=$(get_dirs_with_zoxide | fzf \
     --tmux \
     --multi \
-    --prompt "Project > " \
-    --bind "ctrl-r:execute(rm -f $CACHE_FILE && $0 --update-cache && $0)+abort"
+    --prompt "Project > "
   )
 
   [[ -z "$selected" ]] && exit 0
@@ -173,11 +152,4 @@ main() {
 # ENTRYPOINT
 # =========================
 
-case "$1" in
-  --update-cache|--generate-cache)
-    update_cache
-    ;;
-  *)
-    main "$@"
-    ;;
-esac
+main "$@"
