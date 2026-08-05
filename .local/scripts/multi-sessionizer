@@ -47,15 +47,21 @@ get_dirs() {
 }
 
 get_dirs_with_zoxide() {
-  local dirs zoxide_scores score
+  local dirs zoxide_scores score dir
 
   dirs=$(get_dirs)
   zoxide_scores=$(zoxide query -l 2>/dev/null)
 
+  declare -A z_map
+  while IFS= read -r line; do
+    score="${line%% *}"
+    dir="${line#* }"
+    z_map["$dir"]="$score"
+  done <<< "$zoxide_scores"
+
   while IFS= read -r dir; do
     [[ -z "$dir" ]] && continue
-    score=$(printf '%s\n' "$zoxide_scores" | grep -F "  $dir$" | awk '{print $1}')
-    printf "%s\t%s\n" "${score:-0}" "$dir"
+    printf '%s\t%s\n' "${z_map[$dir]:-0}" "$dir"
   done <<< "$dirs" | sort -rnk1 | cut -f2-
 }
 
