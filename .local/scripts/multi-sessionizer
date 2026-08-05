@@ -26,6 +26,13 @@ extra_dirs=(
   "/mnt/c/Users/b.petrukovich/.config/wezterm"
 )
 
+files=(
+  "$HOME/.npmrc"
+  "$HOME/.nuget/NuGet/NuGet.Config"
+  "$HOME/.config/fish/config.fish"
+  "$HOME/.aws/credentials"
+)
+
 get_dirs() {
   {
     if [ ${#project_dirs_depth_1[@]} -gt 0 ]; then
@@ -44,6 +51,11 @@ get_dirs() {
 
     printf '%s\n' "${extra_dirs[@]}"
   }
+}
+
+get_files() {
+  [[ ${#files[@]} -eq 0 ]] && return
+  printf '%s\n' "${files[@]}"
 }
 
 get_dirs_with_zoxide() {
@@ -118,6 +130,60 @@ process_selected_dirs() {
   fi
 }
 
+process_selected_files() {
+  local selected_files="$1"
+  local tmux_running
+  tmux_running=$(pgrep tmux)
+
+  local count
+  count=$(echo "$selected_files" | wc -l)
+
+  if [[ "$count" -eq 1 ]]; then
+    local filepath dir name
+    filepath="$selected_files"
+    dir="$(dirname "$filepath")"
+    name=$(basename "$dir" | tr . _)
+
+    zoxide add "$dir"
+
+    tmux has-session -t="$name" 2>/dev/null \
+      || tmux new-session -ds "$name" -c "$dir"
+
+    tmux send-keys -t "$name" "nvim '$filepath'" Enter
+
+    if [[ -z "$TMUX" ]]; then
+      tmux attach -t "$name"
+    else
+      tmux switch-client -t "$name"
+      tmux refresh-client -S
+    fi
+    exit 0
+  fi
+
+  while IFS= read -r filepath; do
+    [[ -z "$filepath" ]] && continue
+    local dir name
+    dir="$(dirname "$filepath")"
+    name=$(basename "$dir" | tr . _)
+
+    zoxide add "$dir"
+    tmux has-session -t="$name" 2>/dev/null \
+      || tmux new-session -ds "$name" -c "$dir"
+    tmux send-keys -t "$name" "nvim '$filepath'" Enter
+  done <<< "$selected_files"
+
+  if [[ -z "$TMUX" && -z "$tmux_running" ]]; then
+    local first
+    first=$(basename "$(dirname "$(echo "$selected_files" | head -n1)")" | tr . _)
+    tmux attach -t "$first"
+  elif [[ -n "$TMUX" ]]; then
+    tmux choose-session
+    tmux refresh-client -S
+  else
+    tmux attach
+  fi
+}
+
 # =========================
 # MAIN
 # =========================
@@ -125,30 +191,62 @@ process_selected_dirs() {
 main() {
   # ---------- NON-INTERACTIVE MODE ----------
   if [[ $# -gt 0 ]]; then
-    local resolved=()
+    local resolved_dirs=()
+    local resolved_files=()
 
     for arg in "$@"; do
       if [[ -d "$arg" ]]; then
-        resolved+=("$(realpath "$arg")")
+        resolved_dirs+=("$(realpath "$arg")")
+      elif [[ -f "$arg" ]]; then
+        resolved_files+=("$(realpath "$arg")")
       else
-        echo "Not a directory: $arg" >&2
+        echo "Not a directory or file: $arg" >&2
         exit 1
       fi
     done
 
-    process_selected_dirs "$(printf "%s\n" "${resolved[@]}")"
+    if [[ ${#resolved_dirs[@]} -gt 0 ]]; then
+      process_selected_dirs "$(printf "%s\n" "${resolved_dirs[@]}")"
+    fi
+
+    if [[ ${#resolved_files[@]} -gt 0 ]]; then
+      process_selected_files "$(printf "%s\n" "${resolved_files[@]}")"
+    fi
+
     exit 0
   fi
 
   local selected
-  selected=$(get_dirs_with_zoxide | fzf \
+  selected=$( {
+    get_dirs_with_zoxide
+    get_files
+  } | fzf \
     --tmux \
     --multi \
     --prompt "Project > "
   )
 
   [[ -z "$selected" ]] && exit 0
-  process_selected_dirs "$selected"
+
+  local dirs=()
+  local files=()
+
+  while IFS= read -r path; do
+    [[ -z "$path" ]] && continue
+    if [[ -f "$path" ]]; then
+      files+=("$path")
+    else
+      dirs+=("$path")
+    fi
+  done <<< "$selected"
+
+  if [[ ${#dirs[@]} -gt 0 ]]; then
+    process_selected_dirs "$(printf "%s\n" "${dirs[@]}")"
+  fi
+
+  if [[ ${#files[@]} -gt 0 ]]; then
+    process_selected_files "$(printf "%s\n" "${files[@]}")"
+  fi
 }
 
 # =========================
