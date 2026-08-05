@@ -4,11 +4,12 @@
 
 project_dirs_depth_1=(
   "$HOME/personal"
+  "$HOME/personal/exercises/"
+  "$HOME/itr"
 )
 
 project_dirs_depth_2=(
   "$HOME/work"
-  "$HOME/itr"
 )
 
 extra_dirs=(
