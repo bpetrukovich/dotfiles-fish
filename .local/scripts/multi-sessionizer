@@ -216,6 +216,16 @@ main() {
     exit 0
   fi
 
+  local missing_files=()
+  for f in "${files[@]}"; do
+    [[ -e "$f" ]] || missing_files+=("$f")
+  done
+  if [[ ${#missing_files[@]} -gt 0 ]]; then
+    printf 'The following files do not exist:\n' >&2
+    printf '  %s\n' "${missing_files[@]}" >&2
+    exit 1
+  fi
+
   local selected
   selected=$( {
     get_dirs_with_zoxide
