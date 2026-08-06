@@ -12,7 +12,6 @@ project_dirs_depth_2=(
 
 extra_dirs=(
   "$HOME/obsidian-vault"
-  "$HOME/docker-services/"
   "$HOME/.local/scripts"
   "$HOME/.local/share"
   "$HOME/.config/nvim"
@@ -31,6 +30,8 @@ files=(
   "$HOME/.nuget/NuGet/NuGet.Config"
   "$HOME/.config/fish/config.fish"
   "$HOME/.aws/credentials"
+  "$HOME/.local/scripts/multi-sessionizer"
+  "$HOME/docker-services/docker-compose-work.yml"
 )
 
 get_dirs() {
