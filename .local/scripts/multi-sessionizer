@@ -4,6 +4,7 @@ project_dirs_depth_1=(
   "$HOME/personal"
   "$HOME/personal/exercises/"
   "$HOME/itr"
+  "$HOME/.microsoft/usersecrets/"
 )
 
 project_dirs_depth_2=(
@@ -32,6 +33,7 @@ files=(
   "$HOME/.aws/credentials"
   "$HOME/.local/scripts/multi-sessionizer"
   "$HOME/docker-services/docker-compose-work.yml"
+  "$HOME/.tmux.conf"
 )
 
 get_dirs() {
@@ -224,6 +226,16 @@ main() {
   if [[ ${#missing_files[@]} -gt 0 ]]; then
     printf 'The following files do not exist:\n' >&2
     printf '  %s\n' "${missing_files[@]}" >&2
+    exit 1
+  fi
+
+  local missing_dirs=()
+  for d in "${project_dirs_depth_1[@]}" "${project_dirs_depth_2[@]}" "${extra_dirs[@]}"; do
+    [[ -d "$d" ]] || missing_dirs+=("$d")
+  done
+  if [[ ${#missing_dirs[@]} -gt 0 ]]; then
+    printf 'The following directories do not exist:\n' >&2
+    printf '  %s\n' "${missing_dirs[@]}" >&2
     exit 1
   fi
 
