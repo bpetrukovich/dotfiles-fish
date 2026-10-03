@@ -39,7 +39,7 @@ go() {
     path=$(sed -n "${index}p" "$HARPOON_FILE" 2>/dev/null)
     [ -z "$path" ] && return 0
     [ ! -d "$path" ] && return 0
-    ~/.local/scripts/multi-sessionizer "$path"
+    multi-sessionizer "$path"
     tmux refresh-client -S
 }
 
