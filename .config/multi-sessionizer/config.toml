@@ -1,0 +1,89 @@
+project_roots_depth_1 = [
+    "$HOME/personal",
+    "$HOME/personal/exercises/",
+    "$HOME/itr",
+    "$HOME/.microsoft/usersecrets/",
+    "$HOME/docker-services/",
+]
+
+project_roots_depth_2 = [
+    "$HOME/work",
+]
+
+sessions = [
+    { name = "something", sessions = ["$HOME/obsidian-vault", "$HOME/.local/scripts"] },
+    "$HOME/obsidian-vault",
+    "$HOME/.local/scripts",
+    "$HOME/.local/share",
+    "$HOME/.config/nvim",
+    "$HOME/.config/fish",
+    "$HOME/.config",
+    "$HOME/.ssh",
+    "$HOME/tmuxp",
+    "$HOME/work",
+    "$HOME/personal",
+    "$HOME/buffer",
+    "$HOME",
+    "/mnt/c/Users/b.petrukovich/.config/wezterm",
+"""
+session_name: "npmrc"
+start_directory: "$HOME"
+windows:
+  - window_name: editor
+    panes:
+      - shell_command: "nvim $HOME/.npmrc"
+""", """
+session_name: "nuget"
+start_directory: "$HOME/.nuget/NuGet"
+windows:
+  - window_name: editor
+    panes:
+      - shell_command: "nvim $HOME/.nuget/NuGet/NuGet.Config"
+""", """
+session_name: "fish-config"
+start_directory: "$HOME/.config/fish"
+windows:
+  - window_name: editor
+    panes:
+      - shell_command: "nvim $HOME/.config/fish/config.fish"
+""", """
+session_name: "aws-credentials"
+start_directory: "$HOME/.aws"
+windows:
+  - window_name: editor
+    panes:
+      - shell_command: "nvim $HOME/.aws/credentials"
+""", """
+session_name: "tmux-conf"
+start_directory: "$HOME"
+windows:
+  - window_name: editor
+    panes:
+      - shell_command: "nvim $HOME/.tmux.conf"
+""", """
+session_name: "multi-sessionizer-config"
+start_directory: "$HOME/.config/multi-sessionizer"
+windows:
+  - window_name: editor
+    panes:
+      - shell_command: "nvim $HOME/.config/multi-sessionizer/config.toml"
+""", """
+session_name: "tmux-harpoon"
+start_directory: "$HOME/.local/scripts"
+windows:
+  - window_name: editor
+    panes:
+      - shell_command: "nvim $HOME/.local/scripts/tmux-harpoon"
+""","""
+session_name: secrets-mongo-ssm
+windows:
+  - window_name: main
+    layout: even-vertical
+    panes:
+      - shell_command:
+          - ssm-reconnect
+      - shell_command:
+          - kubectl port-forward services/secret-management-service 8080:80 -n ${K8S_WORK_NAMESPACE}
+      - shell_command:
+          - kubectl port-forward pods/core-cache-service-1 27018:27017 -n commons
+"""]
