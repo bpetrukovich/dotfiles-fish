@@ -11,7 +11,10 @@ project_roots_depth_2 = [
 ]
 
 sessions = [
-    { name = "something", sessions = ["$HOME/obsidian-vault", "$HOME/.local/scripts"] },
+    # { name = "example_group", sessions = ["$HOME/obsidian-vault", "$HOME/.local/scripts"] },
+    "$HOME/ai",
+    "$HOME/.cursor/rules/",
+    "$HOME/.cursor/skills/",
     "$HOME/obsidian-vault",
     "$HOME/.local/scripts",
     "$HOME/.local/share",
@@ -19,7 +22,6 @@ sessions = [
     "$HOME/.config/fish",
     "$HOME/.config",
     "$HOME/.ssh",
-    "$HOME/tmuxp",
     "$HOME/work",
     "$HOME/personal",
     "$HOME/buffer",
