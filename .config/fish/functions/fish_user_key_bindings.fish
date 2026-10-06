@@ -17,12 +17,12 @@ function fish_user_key_bindings
 
     # Multi Sessionizer (see ~/.local/scripts/multi-sessionizer)
     # Should be in sync with ~/.tmux.conf
-    bind \eo 'multi-sessionizer /home/bogdan/obsidian-vault'
-    bind \en 'multi-sessionizer /home/bogdan/.config/nvim'
-    bind \e\` 'multi-sessionizer /home/bogdan'
-    bind -M insert \eo 'multi-sessionizer /home/bogdan/obsidian-vault'
-    bind -M insert \en 'multi-sessionizer /home/bogdan/.config/nvim'
-    bind -M insert \e\` 'multi-sessionizer /home/bogdan'
+    bind \eo 'multi-sessionizer switch /home/bogdan/obsidian-vault'
+    bind \en 'multi-sessionizer switch /home/bogdan/.config/nvim'
+    bind \e\` 'multi-sessionizer switch /home/bogdan'
+    bind -M insert \eo 'multi-sessionizer switch /home/bogdan/obsidian-vault'
+    bind -M insert \en 'multi-sessionizer switch /home/bogdan/.config/nvim'
+    bind -M insert \e\` 'multi-sessionizer switch /home/bogdan'
 
     bind ctrl-alt-b fzf_search_git_branch
     bind -M insert ctrl-alt-b fzf_search_git_branch
